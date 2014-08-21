@@ -10,6 +10,7 @@ module RSpec
         config.add_setting :default_retry_count, :default => 1
         config.add_setting :default_sleep_interval, :default => 0
         config.add_setting :clear_lets_on_failure, :default => true
+        config.add_setting :second_try, :default => false
 
         # context.example is deprecated, but RSpec.current_example is not
         # available until RSpec 3.0.
@@ -27,6 +28,7 @@ module RSpec
           retry_count.times do |i|
             if RSpec.configuration.verbose_retry?
               if i > 0
+                config.second_try = true
                 message = "RSpec::Retry: #{RSpec::Retry.ordinalize(i + 1)} try #{example.location}"
                 message = "\n" + message if i == 1
                 RSpec.configuration.reporter.message(message)
